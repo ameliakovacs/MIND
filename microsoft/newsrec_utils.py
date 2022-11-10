@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 
 
-from deeprec_utils import (
+from microsoft.deeprec_utils import (
     flat_config,
     HParams,
     load_yaml,

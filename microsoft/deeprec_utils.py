@@ -15,7 +15,7 @@ import yaml
 import zipfile
 import pickle as pkl
 
-from download_utils import maybe_download
+from microsoft.download_utils import maybe_download
 
 
 def flat_config(config):

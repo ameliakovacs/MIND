@@ -10,7 +10,7 @@ import re
 from tqdm import tqdm
 from nltk.tokenize import RegexpTokenizer
 
-from download_utils import (
+from microsoft.download_utils import (
     maybe_download,
     download_path,
     unzip_file,
