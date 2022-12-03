@@ -4,12 +4,12 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split as sk_split
 
-from constants import (
+from microsoft.constants import (
     DEFAULT_ITEM_COL,
     DEFAULT_USER_COL,
     DEFAULT_TIMESTAMP_COL,
 )
-from split_utils import (
+from microsoft.split_utils import (
     process_split_ratio,
     min_rating_filter_pandas,
     split_pandas_data_with_ratios,
@@ -36,7 +36,8 @@ def python_random_split(data, ratio=0.75, seed=42):
     multi_split, ratio = process_split_ratio(ratio)
 
     if multi_split:
-        splits = split_pandas_data_with_ratios(data, ratio, shuffle=True, seed=seed)
+        splits = split_pandas_data_with_ratios(
+            data, ratio, shuffle=True, seed=seed)
         splits_new = [x.drop("split_index", axis=1) for x in splits]
 
         return splits_new
@@ -60,7 +61,8 @@ def _do_stratification(
         raise ValueError("filter_by should be either 'user' or 'item'.")
 
     if min_rating < 1:
-        raise ValueError("min_rating should be integer and larger than or equal to 1.")
+        raise ValueError(
+            "min_rating should be integer and larger than or equal to 1.")
 
     if col_user not in data.columns:
         raise ValueError("Schema of data not valid. Missing User Col")
@@ -248,7 +250,8 @@ def numpy_stratified_split(X, ratio=0.75, seed=42):
     """
 
     np.random.seed(seed)  # set the random seed
-    test_cut = int((1 - ratio) * 100)  # percentage of ratings to go in the test set
+    # percentage of ratings to go in the test set
+    test_cut = int((1 - ratio) * 100)
 
     # initialize train and test set matrices
     Xtr = X.copy()

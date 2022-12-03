@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 from functools import lru_cache, wraps
 
-from constants import (
+from microsoft.constants import (
     DEFAULT_USER_COL,
     DEFAULT_ITEM_COL,
     DEFAULT_RATING_COL,
@@ -52,7 +52,8 @@ def user_item_pairs(
 
     # Filter
     if user_item_filter_df is not None:
-        users_items = filter_by(users_items, user_item_filter_df, [user_col, item_col])
+        users_items = filter_by(
+            users_items, user_item_filter_df, [user_col, item_col])
 
     if shuffle:
         users_items = users_items.sample(frac=1, random_state=seed).reset_index(
@@ -167,11 +168,13 @@ class LibffmConverter:
                 for x in types
             ]
         ):
-            raise TypeError("Input columns should be only object and/or numeric types.")
+            raise TypeError(
+                "Input columns should be only object and/or numeric types.")
 
         if col_rating not in df.columns:
             raise TypeError(
-                "Column of {} is not in input dataframe columns".format(col_rating)
+                "Column of {} is not in input dataframe columns".format(
+                    col_rating)
             )
 
         self.col_rating = col_rating
@@ -226,7 +229,8 @@ class LibffmConverter:
 
         for col_index, col in enumerate(self.field_names):
             df[col] = df[col].apply(
-                lambda x: _convert(col, x, col_index + 1, self.field_feature_dict)
+                lambda x: _convert(col, x, col_index + 1,
+                                   self.field_feature_dict)
             )
 
         # Move rating column to the first.
@@ -335,7 +339,8 @@ def negative_feedback_sampler(
         # instead of items, which is more efficient when len(items) is large.
         sample_size = min(n_u + neg_sample_size, len(items))
         items_sample = rng.choice(items, sample_size, replace=False)
-        new_items = np.setdiff1d(items_sample, user_df[col_item])[:neg_sample_size]
+        new_items = np.setdiff1d(items_sample, user_df[col_item])[
+            :neg_sample_size]
         new_df = pd.DataFrame(
             data={
                 col_user: user_df.name,
@@ -396,14 +401,16 @@ def has_same_base_dtype(df_1, df_2, columns=None):
         columns = df_1.columns
 
     if not (
-        has_columns(df=df_1, columns=columns) and has_columns(df=df_2, columns=columns)
+        has_columns(df=df_1, columns=columns) and has_columns(
+            df=df_2, columns=columns)
     ):
         return False
 
     result = True
     for column in columns:
         if df_1[column].dtype.type.__base__ != df_2[column].dtype.type.__base__:
-            logger.error("Columns {} do not have the same base datatype".format(column))
+            logger.error(
+                "Columns {} do not have the same base datatype".format(column))
             result = False
 
     return result

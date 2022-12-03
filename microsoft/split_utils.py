@@ -5,7 +5,7 @@ import numpy as np
 import math
 import logging
 
-from constants import DEFAULT_ITEM_COL, DEFAULT_USER_COL
+from microsoft.constants import DEFAULT_ITEM_COL, DEFAULT_USER_COL
 
 logger = logging.getLogger(__name__)
 
